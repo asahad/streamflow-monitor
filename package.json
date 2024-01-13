@@ -1,0 +1,11 @@
+{
+  "name": "streamflow-monitor",
+  "version": "1.0.0",
+  "description": "Web App for Monitoring streamflow across some stream gauges in the United States",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alhassan Sahad",
+  "license": "MIT"
+}
