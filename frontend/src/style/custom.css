@@ -1,0 +1,4 @@
+/* in your main CSS file */
+body {
+  padding-top: 56px; /* Adjust the value based on the height of your navbar */
+}
