@@ -8,7 +8,7 @@
     "start": "nodemon backend/server.js",
     "start-prod": "node backend/server.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
-    "serve": "/frontend/serve -s dist"
+    "serve": "serve -s frontend/dist"
   },
   "author": "Alhassan Sahad",
   "license": "MIT",
@@ -23,5 +23,8 @@
     "react-bootstrap": "^2.10.0",
     "react-leaflet": "^4.2.1",
     "serve": "^14.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
