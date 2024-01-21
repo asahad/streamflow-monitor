@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 // const formSubmissionRoute = require('./formSubmissionRoute.js'); 
 const dotenv = require('dotenv');
 dotenv.config();
-
-
 const app = express();
 
 app.use(cors()); // to handle cross-origin requests
