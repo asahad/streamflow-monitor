@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start":"nodemon backend/server.js",
     "start-prod":"node backend/server.js",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "serve": "serve -s dist --prefix frontend"
   },
   "author": "Alhassan Sahad",
   "license": "MIT",
