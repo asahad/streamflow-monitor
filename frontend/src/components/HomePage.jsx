@@ -1,78 +1,151 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { Container, Row, Col } from "react-bootstrap";
-import streamGauge from "./streamGauge";
+import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import "leaflet/dist/leaflet.css";
 import "../style/custom.css";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
+import streamGauge from "./streamGauge";
 
 // Define the custom marker icon
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIconPng,
   iconRetinaUrl: markerIconPng,
   shadowUrl: markerShadowPng,
-  iconSize: [25, 41],
+  iconSize: [10, 20],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+  shadowSize: [10, 10],
 });
 
 const HomePage = () => {
   const [selectedSiteName, setSelectedSiteName] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const [formData, setFormData] = useState({
+    startDate: "",
+    endDate: "",
+    gageHeight: false,
+    streamflow: false,
+  });
 
-  const GaugeMarker = ({ gage }) => {
-    return (
-      <Marker
-        position={[gage.SiteLatitude, gage.SiteLongitude]}
-        icon={customMarkerIcon}
-        eventHandlers={{
-          click: () => {
-            setSelectedSiteName(gage.SiteName);
-          },
-        }}
-      >
-        <Popup>{gage.SiteName}</Popup>
-      </Marker>
-    );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("localhost:3000/api/fetchusgsdata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, siteName: selectedSiteName }),
+    });
+    const data = await response.json();
+    console.log(data); // Assuming you'll handle the response here, e.g., plot the graph
+    setModalShow(false); // Close the modal after submitting
   };
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const GaugeMarker = ({ gage }) => (
+    <Marker
+      position={[gage.SiteLatitude, gage.SiteLongitude]}
+      icon={customMarkerIcon}
+      eventHandlers={{
+        click: () => {
+          setSelectedSiteName(gage.SiteName);
+          setModalShow(true);
+        },
+      }}
+    >
+      <Popup>{gage.SiteName}</Popup>
+    </Marker>
+  );
+
   return (
-    <Container fluid>
-      <Row>
-        {/* For small to medium viewports, take full width. For lg and xl, take half width */}
-        <Col xs={12} lg={6} style={{ minHeight: "50vh" }}>
-          <MapContainer
-            center={[38.573936, -92.60376]}
-            zoom={10}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {streamGauge.map((gage) => (
-              <GaugeMarker key={gage.SiteNumber} gage={gage} />
-            ))}
-          </MapContainer>
-        </Col>
-        {/* For small to medium viewports, take full width. For lg and xl, take half width */}
-        <Col xs={12} lg={6} style={{ minHeight: "100vh", overflowY: "auto" }}>
-          <h2 style={{ textAlign: "center" }} className="mainHeading">
-            Stream Conditions
-          </h2>
-          {selectedSiteName && (
-            <div
-              style={{ marginTop: "20px", textAlign: "center" }}
-              className="siteName"
+    <>
+      <Container fluid>
+        <Row>
+          <Col xs={12} lg={6} style={{ minHeight: "150vh" }}>
+            <MapContainer
+              center={[38.573936, -92.60376]}
+              zoom={10}
+              style={{ height: "100%", width: "100%" }}
             >
-              <h3>{selectedSiteName}</h3>
-            </div>
-          )}
-        </Col>
-      </Row>
-    </Container>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {streamGauge.map((gage) => (
+                <GaugeMarker key={gage.SiteNumber} gage={gage} />
+              ))}
+            </MapContainer>
+          </Col>
+          <Col xs={12} lg={6} style={{ overflowY: "auto" }}>
+            <h2 className="mainHeading">
+              {selectedSiteName
+                ? selectedSiteName
+                : "Select a gauge on the map"}
+            </h2>
+            {<h3 className="siteName">Stream Condtions</h3>}
+            {/* Placeholder for graph display */}
+          </Col>
+        </Row>
+      </Container>
+
+      <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Select Date and Parameters for {selectedSiteName}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="startDate"
+                value={formData.startDate}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="endDate"
+                value={formData.endDate}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formGageHeight">
+              <Form.Check
+                type="checkbox"
+                label="Gage Height"
+                name="gageHeight"
+                checked={formData.gageHeight}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formStreamflow">
+              <Form.Check
+                type="checkbox"
+                label="Streamflow"
+                name="streamflow"
+                checked={formData.streamflow}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Display Results
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
