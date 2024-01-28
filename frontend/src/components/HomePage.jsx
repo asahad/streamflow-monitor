@@ -13,10 +13,10 @@ const customMarkerIcon = new L.Icon({
   iconUrl: markerIconPng,
   iconRetinaUrl: markerIconPng,
   shadowUrl: markerShadowPng,
-  iconSize: [10, 20],
+  iconSize: [20, 21],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [10, 10],
+  shadowSize: [11, 11],
 });
 
 const HomePage = () => {
@@ -31,7 +31,7 @@ const HomePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("localhost:3000/api/fetchusgsdata", {
+    const response = await fetch("/api/fetchusgsdata", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...formData, siteName: selectedSiteName }),
@@ -68,6 +68,7 @@ const HomePage = () => {
     <>
       <Container fluid>
         <Row>
+          {/* Map and Stream Conditions split the screen on lg and xl, stack on smaller screens */}
           <Col xs={12} lg={6} style={{ minHeight: "150vh" }}>
             <MapContainer
               center={[38.573936, -92.60376]}
@@ -89,20 +90,19 @@ const HomePage = () => {
                 ? selectedSiteName
                 : "Select a gauge on the map"}
             </h2>
-            {<h3 className="siteName">Stream Condtions</h3>}
             {/* Placeholder for graph display */}
+            {/* The Button to open the modal could also go here if needed */}
           </Col>
         </Row>
       </Container>
 
       <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>
-            Select Date and Parameters for {selectedSiteName}
-          </Modal.Title>
+          <Modal.Title>Enter Details for {selectedSiteName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
+            {/* Form fields */}
             <Form.Group className="mb-3">
               <Form.Label>Start Date</Form.Label>
               <Form.Control
@@ -121,7 +121,7 @@ const HomePage = () => {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formGageHeight">
+            <Form.Group className="mb-3">
               <Form.Check
                 type="checkbox"
                 label="Gage Height"
@@ -130,7 +130,7 @@ const HomePage = () => {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formStreamflow">
+            <Form.Group className="mb-3">
               <Form.Check
                 type="checkbox"
                 label="Streamflow"
