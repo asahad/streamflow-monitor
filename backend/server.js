@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
+const fetchDataRoute=require('./fetchDataRoute')
 
 app.use(cors()); 
 app.use(bodyParser.json()); 
