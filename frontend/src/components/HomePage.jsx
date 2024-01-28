@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { Container, Row, Col } from "react-bootstrap";
@@ -26,7 +26,7 @@ const HomePage = () => {
     return (
       <Marker
         position={[gage.SiteLatitude, gage.SiteLongitude]}
-        icon={customMarkerIcon} // Use the custom marker icon
+        icon={customMarkerIcon}
         eventHandlers={{
           click: () => {
             setSelectedSiteName(gage.SiteName);
@@ -41,11 +41,12 @@ const HomePage = () => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={6} style={{ height: "100vh" }}>
+        {/* For small to medium viewports, take full width. For lg and xl, take half width */}
+        <Col xs={12} lg={6} style={{ minHeight: "50vh" }}>
           <MapContainer
             center={[38.573936, -92.60376]}
             zoom={10}
-            style={{ height: "95%" }}
+            style={{ height: "100%", width: "100%" }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -56,13 +57,17 @@ const HomePage = () => {
             ))}
           </MapContainer>
         </Col>
-        <Col sm={6} style={{ height: "100vh", overflowY: "auto" }}>
+        {/* For small to medium viewports, take full width. For lg and xl, take half width */}
+        <Col xs={12} lg={6} style={{ minHeight: "100vh", overflowY: "auto" }}>
           <h2 style={{ textAlign: "center" }} className="mainHeading">
             Stream Conditions
           </h2>
           {selectedSiteName && (
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
-              <h3 className="siteName">{selectedSiteName}</h3>
+            <div
+              style={{ marginTop: "20px", textAlign: "center" }}
+              className="siteName"
+            >
+              <h3>{selectedSiteName}</h3>
             </div>
           )}
         </Col>
