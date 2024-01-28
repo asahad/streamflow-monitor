@@ -2,7 +2,6 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Container, Row, Col } from "react-bootstrap";
 import streamGauge from "./streamGauge";
-
 const HomePage = () => {
   return (
     <Container fluid>
