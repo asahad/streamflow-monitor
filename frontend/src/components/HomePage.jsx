@@ -3,7 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"; // Ensur
 import { Container, Row, Col } from "react-bootstrap";
 import streamGauge from "./streamGauge";
 import "leaflet/dist/leaflet.css";
-import "../style/custom.css"
+{/* <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" /> */}
+// import "../style/custom.css"
 const HomePage = () => {
   const [selectedSiteName, setSelectedSiteName] = useState("");
   const GaugeMarker = ({ gage }) => {
