@@ -2,11 +2,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"; // Ensure Marker is included here
 import { Container, Row, Col } from "react-bootstrap";
 import streamGauge from "./streamGauge";
-// import "leaflet/dist/leaflet.css";
-<link
-  rel="stylesheet"
-  href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css"
-/>;
+import "leaflet/dist/leaflet.css";
 import "../style/custom.css";
 const HomePage = () => {
   const [selectedSiteName, setSelectedSiteName] = useState("");
