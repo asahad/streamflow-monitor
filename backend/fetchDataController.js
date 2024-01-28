@@ -14,10 +14,9 @@ const fetchUSGSData = async (req, res) => {
         .status(400)
         .json({ message: "Both start date and end date are required" });
     }
-
     // Call fetchWaterDataFromUSGS with siteNumber, startDate, and endDate
     const { success, data, error } = await fetchWaterDataFromUSGS(
-      siteNumber,
+      "0" + siteNumber,
       startDate,
       endDate
     );
