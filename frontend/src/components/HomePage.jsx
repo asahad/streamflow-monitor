@@ -2,9 +2,12 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"; // Ensure Marker is included here
 import { Container, Row, Col } from "react-bootstrap";
 import streamGauge from "./streamGauge";
-import "leaflet/dist/leaflet.css";
-{/* <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" /> */}
-// import "../style/custom.css"
+// import "leaflet/dist/leaflet.css";
+<link
+  rel="stylesheet"
+  href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css"
+/>;
+import "../style/custom.css";
 const HomePage = () => {
   const [selectedSiteName, setSelectedSiteName] = useState("");
   const GaugeMarker = ({ gage }) => {
@@ -41,7 +44,9 @@ const HomePage = () => {
           </MapContainer>
         </Col>
         <Col sm={6} style={{ height: "100vh", overflowY: "auto" }}>
-          <h2 style={{ textAlign: "center" }} className="mainHeading">Stream Conditions</h2>
+          <h2 style={{ textAlign: "center" }} className="mainHeading">
+            Stream Conditions
+          </h2>
           {selectedSiteName && (
             <div style={{ marginTop: "20px", textAlign: "center" }}>
               <h3 className="siteName">{selectedSiteName}</h3>
