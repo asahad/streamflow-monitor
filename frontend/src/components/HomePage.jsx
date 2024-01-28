@@ -90,6 +90,7 @@ const HomePage = () => {
                 ? selectedSiteName
                 : "Select a gauge on the map"}
             </h2>
+            {<h3 className="siteName">Stream Conditiona</h3>}
             {/* Placeholder for graph display */}
             {/* The Button to open the modal could also go here if needed */}
           </Col>
